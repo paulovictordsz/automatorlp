@@ -7,13 +7,19 @@ export const SECTIONS_CONFIG = [
         folder: 'Section1',
         enabled: true,
         order: 1
+    },
+    {
+        name: 'SectionIdeal',
+        folder: 'SectionIdeal',
+        enabled: true,
+        order: 2
     }
     // Adicione novas seções aqui:
     // {
     //     name: 'Section2',
     //     folder: 'Section2', 
     //     enabled: true,
-    //     order: 2
+    //     order: 3
     // }
 ];
 

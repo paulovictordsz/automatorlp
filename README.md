@@ -10,6 +10,7 @@ Sistema automatizado para criação de landing pages modulares com carregamento 
 - [🎨 Design System](#-design-system)
 - [🎨 Personalização de Cores](#-personalização-de-cores)
 - [🔤 Personalização de Fontes](#-personalização-de-fontes)
+- [🔧 Consolidação de CSS](#-consolidação-de-css)
 - [⚡ Performance](#-performance)
 - [🔧 Configurações Avançadas](#-configurações-avançadas)
 - [🚀 Como Usar](#-como-usar)
@@ -394,6 +395,208 @@ p {
     font-weight: 500 !important;
 }
 ```
+
+## 🔧 Consolidação de CSS
+
+### ⚠️ REGRA IMPORTANTE: Sempre Consolide CSS
+
+**SEMPRE** consolide estilos duplicados no arquivo `styles.css` global. Nunca deixe CSS inline nas seções HTML individuais.
+
+### Por que Consolidar?
+
+1. **Manutenibilidade**: Um local central para todos os estilos
+2. **Performance**: Menos código duplicado = carregamento mais rápido
+3. **Consistência**: Variáveis CSS centralizadas evitam inconsistências
+4. **Escalabilidade**: Fácil de modificar cores/fontes em todo o projeto
+
+### Como Consolidar
+
+#### 1. Identificar Duplicações
+
+Procure por:
+- **Cores hardcoded**: `#EEC169`, `#0E2A1E`, `#333`, etc.
+- **Variáveis duplicadas**: `--gold-1`, `--primary-color` com mesmo valor
+- **Estilos repetidos**: Mesmos `padding`, `margin`, `font-size`
+
+#### 2. Mover para styles.css
+
+**❌ ERRADO - CSS inline na seção:**
+```html
+<!-- SectionIdeal.html -->
+<style>
+.heading {
+    color: #333;  /* Cor hardcoded */
+    font-size: 35px;
+}
+</style>
+```
+
+**✅ CORRETO - CSS consolidado:**
+```html
+<!-- SectionIdeal.html - SEM <style> -->
+<div class="heading">Título</div>
+```
+
+```css
+/* styles.css - Consolidado */
+.heading {
+    color: var(--text-color);  /* Usa variável */
+    font-size: clamp(20px, 3vw, 35px);
+}
+```
+
+#### 3. Usar Variáveis CSS
+
+**❌ ERRADO - Cores hardcoded:**
+```css
+.icon-card {
+    background: #0E2A1E;
+    color: #FCFCFC;
+}
+```
+
+**✅ CORRETO - Variáveis CSS:**
+```css
+.icon-card {
+    background: var(--secondary-color);
+    color: var(--text-light-bg);
+}
+```
+
+### Checklist de Consolidação
+
+Antes de finalizar qualquer seção, verifique:
+
+- [ ] **Removido CSS inline** da seção HTML
+- [ ] **Consolidado estilos** no `styles.css`
+- [ ] **Substituído cores hardcoded** por variáveis CSS
+- [ ] **Removido duplicações** de variáveis
+- [ ] **Testado funcionamento** após consolidação
+
+### Exemplo de Consolidação Completa
+
+#### Antes (Duplicado):
+```css
+/* styles.css - Seção 1 */
+:root {
+    --primary-color: #EEC169;
+    --secondary-color: #0E2A1E;
+}
+
+/* styles.css - Seção Ideal */
+:root {
+    --gold-1: #977449;        /* Duplicado com --primary-color */
+    --gold-2: #EEE3B7;
+    --txt-gold: #EEC169;      /* Duplicado com --primary-color */
+}
+
+.icon-card {
+    background: #0E2A1E;      /* Hardcoded */
+    color: #FCFCFC;           /* Hardcoded */
+}
+```
+
+#### Depois (Consolidado):
+```css
+/* styles.css - Consolidado */
+:root {
+    /* Cores principais */
+    --primary-color: #EEC169;
+    --secondary-color: #0E2A1E;
+    
+    /* Cores douradas (consolidadas) */
+    --gold-1: #977449;
+    --gold-2: #EEE3B7;
+    --txt-gold: #EEC169;
+    
+    /* Cores de texto */
+    --text-light-bg: #FCFCFC;
+}
+
+.icon-card {
+    background: var(--secondary-color);
+    color: var(--text-light-bg);
+}
+```
+
+### Ferramentas para Identificar Duplicações
+
+#### 1. Buscar Cores Hardcoded
+```bash
+# No terminal, dentro da pasta do projeto
+grep -r "#[0-9A-Fa-f]\{6\}" styles.css
+grep -r "#[0-9A-Fa-f]\{3\}" styles.css
+```
+
+#### 2. Buscar Variáveis Duplicadas
+```bash
+grep -r "--.*:" styles.css | sort | uniq -d
+```
+
+#### 3. Verificar CSS Inline
+```bash
+grep -r "<style>" Componentes/
+```
+
+### Estrutura Recomendada do styles.css
+
+```css
+/* ========================================
+   CONFIGURAÇÕES GLOBAIS - DESIGN SYSTEM
+   ======================================== */
+
+/* Reset e configurações base */
+* { /* ... */ }
+
+/* ========================================
+   VARIÁVEIS DE CORES - CONFIGURE AQUI
+   ======================================== */
+:root {
+    /* Cores principais */
+    --primary-color: #EEC169;
+    --secondary-color: #0E2A1E;
+    
+    /* Cores de texto */
+    --text-color: #333333;
+    --text-light-bg: #FCFCFC;
+    
+    /* Cores específicas (quando necessário) */
+    --gold-1: #977449;
+    --gold-2: #EEE3B7;
+}
+
+/* ========================================
+   TIPOGRAFIA - CONFIGURE AQUI
+   ======================================== */
+h1, h2, h3, h4 { /* ... */ }
+p { /* ... */ }
+
+/* ========================================
+   COMPONENTES GLOBAIS
+   ======================================== */
+.cta-button { /* ... */ }
+.section { /* ... */ }
+
+/* ========================================
+   SEÇÕES ESPECÍFICAS
+   ======================================== */
+#secao-ideal { /* ... */ }
+#secao-hero { /* ... */ }
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 768px) { /* ... */ }
+```
+
+### Lembrete Importante
+
+**SEMPRE** que adicionar uma nova seção:
+1. Crie apenas o HTML na pasta `Componentes/`
+2. Mova TODOS os estilos para `styles.css`
+3. Use variáveis CSS existentes quando possível
+4. Crie novas variáveis apenas se necessário
+5. Teste se tudo funciona após a consolidação
 
 ## ⚡ Performance
 
