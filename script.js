@@ -31,10 +31,24 @@ class SimpleIncludes {
             const html = await response.text();
             element.innerHTML = html;
             console.log(`Seção ${sectionName} carregada com sucesso`);
+            
+            // Executa scripts após carregar a seção
+            this.executeScripts(element);
         } catch (error) {
             console.error(`Erro ao carregar seção ${sectionName}:`, error);
             this.showDebugSection();
         }
+    }
+
+    // Executa scripts dentro de uma seção carregada
+    executeScripts(element) {
+        const scripts = element.querySelectorAll('script');
+        scripts.forEach(script => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent;
+            document.head.appendChild(newScript);
+            document.head.removeChild(newScript);
+        });
     }
 
     // Mostra a seção de debug se o carregamento falhar

@@ -7,13 +7,37 @@ export const SECTIONS_CONFIG = [
         folder: 'Section1',
         enabled: true,
         order: 1
+    },
+    {
+        name: 'SofreCom',
+        folder: 'SofreCom', 
+        enabled: true,
+        order: 2
+    },
+    {
+        name: 'Clinica',
+        folder: 'Clinica', 
+        enabled: true,
+        order: 3
+    },
+    {
+        name: 'Formulario',
+        folder: 'Formulario', 
+        enabled: true,
+        order: 4
+    },
+    {
+        name: 'Depoimentos',
+        folder: 'Depoimentos', 
+        enabled: true,
+        order: 5
     }
     // Adicione novas seções aqui:
     // {
-    //     name: 'Section2',
-    //     folder: 'Section2', 
+    //     name: 'Section4',
+    //     folder: 'Section4', 
     //     enabled: true,
-    //     order: 2
+    //     order: 4
     // }
 ];
 

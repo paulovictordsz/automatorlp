@@ -1,0 +1,187 @@
+<section class="t-wrap" aria-label="Depoimentos de pacientes">
+  <div class="t-viewport">
+    <div class="t-track">
+      <!-- Cards reais -->
+      <article class="t-card">
+        <img class="t-stars" alt="" src="https://upload.wikimedia.org/wikipedia/commons/1/18/5_stars.svg">
+        <h3 class="t-author">– Paciente da Dra. Jibse</h3>
+        <p class="t-headline">"ATENDIMENTO EXCELENTE. SAÍMOS ENCANTADAS"</p>
+        <p class="t-text">"Desde o primeiro contato, a equipe foi muito atenciosa. A Dra. Jibse explicou tudo com calma e clareza."</p>
+      </article>
+
+      <article class="t-card">
+        <img class="t-stars" alt="" src="https://upload.wikimedia.org/wikipedia/commons/1/18/5_stars.svg">
+        <h3 class="t-author">– Paciente da Jibse</h3>
+        <p class="t-headline">"MELHOR EXPERIÊNCIA QUE TIVE NA MINHA VIDA"</p>
+        <p class="t-text">"Muito educada e didática, explicou cada etapa do tratamento e me deixou super à vontade."</p>
+      </article>
+
+      <article class="t-card">
+        <img class="t-stars" alt="" src="https://upload.wikimedia.org/wikipedia/commons/1/18/5_stars.svg">
+        <h3 class="t-author">– Gabriela A.</h3>
+        <p class="t-headline">"RESULTADO PERFEITO"</p>
+        <p class="t-text">"Superou minhas expectativas. Recomendo de olhos fechados."</p>
+      </article>
+
+      <article class="t-card">
+        <img class="t-stars" alt="" src="https://upload.wikimedia.org/wikipedia/commons/1/18/5_stars.svg">
+        <h3 class="t-author">– Bruno M.</h3>
+        <p class="t-headline">"PROFISSIONAL ÍMPAR"</p>
+        <p class="t-text">"Atendimento humano e muito competente. Voltarei sempre."</p>
+      </article>
+      <!-- Ghosts serão inseridos via JS, se necessário -->
+    </div>
+  </div>
+
+  <button class="t-nav t-prev" aria-label="Anterior">‹</button>
+  <button class="t-nav t-next" aria-label="Próximo">›</button>
+  <div class="t-dots" role="tablist" aria-label="Navegação de depoimentos"></div>
+</section>
+
+<style>
+  :root{
+    --t-bg:#E4E4E4;
+    --t-card:#202020;
+    --t-white:#FFFFFF;
+    --t-muted:#EDEDED;
+    --t-radius:20px;
+    --gap:28px;
+  }
+  .t-wrap{
+    position:relative;
+    background:var(--t-bg);
+    border-radius:var(--t-radius);
+    padding:80px;
+    max-width:1120px;
+    margin:0 auto;
+    box-sizing:border-box;
+  }
+  .t-viewport{ overflow:hidden; }
+  .t-track{ display:flex; gap:var(--gap); will-change:transform; transition:transform .5s ease; }
+
+  /* 2 por tela (desktop) => 2*card + 1*gap = 100% do viewport */
+  .t-card, .t-ghost{
+    position:relative;
+    background:var(--t-card);
+    color:var(--t-white);
+    border-radius:var(--t-radius);
+    padding:40px;
+    box-sizing:border-box;
+    flex:0 0 calc((100% - var(--gap)) / 2);
+    max-width:calc((100% - var(--gap)) / 2);
+  }
+  @media (max-width:900px){
+    .t-card, .t-ghost{ flex-basis:100%; max-width:100%; }
+  }
+  .t-ghost{ visibility:hidden; } /* ocupa espaço, mas não aparece */
+
+  .t-stars{ position:absolute; width:94px; right:30px; top:20px; pointer-events:none; user-select:none; }
+  .t-author{ margin:0 0 12px; font:600 20px/1.4 "Poppins", system-ui, Arial, sans-serif; color:#FFFFFF; }
+  .t-headline{ margin:0 0 18px; font:800 14px/1.5 "Poppins", system-ui, Arial, sans-serif; text-transform:uppercase; color:#FFFFFF; }
+  .t-text{ margin:0; font:400 16px/22px "Poppins", system-ui, Arial, sans-serif; color:#FFFFFF; }
+
+  .t-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    background:transparent; border:0; color:#6c6c6c;
+    font-size:36px; line-height:1; padding:0 8px; cursor:pointer;
+  }
+  .t-prev{ left:22px } .t-next{ right:22px }
+
+  .t-dots{ display:flex; gap:8px; justify-content:center; margin-top:18px; }
+  .t-dots button{ width:8px; height:8px; border-radius:50%; background:#6f6f6f; opacity:.35; border:0; padding:0; cursor:pointer; }
+  .t-dots button[aria-current="true"]{ opacity:1 }
+</style>
+
+<script>
+(() => {
+  const wrap = document.querySelector('.t-wrap');
+  const viewport = wrap.querySelector('.t-viewport');
+  const track = wrap.querySelector('.t-track');
+  const prev = wrap.querySelector('.t-prev');
+  const next = wrap.querySelector('.t-next');
+  const dotsWrap = wrap.querySelector('.t-dots');
+
+  const autoplayMs = 3500;
+  let index = 0, timer = null, offsets = [];
+
+  const perView = () => matchMedia('(max-width: 900px)').matches ? 1 : 2;
+
+  function normalizeSlides(){
+    // remove ghosts antigos
+    track.querySelectorAll('.t-ghost').forEach(n => n.remove());
+    const real = track.querySelectorAll('.t-card').length;
+    const pv = perView();
+    const rest = real % pv;
+    if (rest !== 0){
+      for (let i = 0; i < pv - rest; i++){
+        const g = document.createElement('div');
+        g.className = 't-ghost';
+        track.appendChild(g);
+      }
+    }
+  }
+
+  function buildOffsets(){
+    offsets = [];
+    const pv = perView();
+    const total = track.children.length; // inclui ghosts
+    for (let page = 0; page < Math.ceil(total / pv); page++){
+      const first = track.children[page * pv];
+      // deslocamento real do início da página em relação ao track
+      const off = first.offsetLeft;
+      offsets.push(off);
+    }
+  }
+
+  function pages(){
+    return offsets.length || 1;
+  }
+
+  function buildDots(){
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < pages(); i++){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.addEventListener('click', () => { stop(); go(i); start(); });
+      dotsWrap.appendChild(b);
+    }
+  }
+
+  function apply(){
+    const x = -(offsets[index] || 0);
+    // usa translate3d e arredonda para pixel inteiro
+    track.style.transform = `translate3d(${Math.round(x)}px,0,0)`;
+    dotsWrap.querySelectorAll('button').forEach((b, i) =>
+      b.setAttribute('aria-current', i === index));
+  }
+
+  function go(to){
+    index = (to + pages()) % pages();
+    apply();
+  }
+
+  function start(){ stop(); timer = setInterval(() => go(index + 1), autoplayMs); }
+  function stop(){ if (timer) { clearInterval(timer); timer = null; } }
+
+  function relayout(){
+    const cur = index;
+    normalizeSlides();
+    // força reflow antes de medir
+    track.style.transform = 'translate3d(0,0,0)';
+    buildOffsets();
+    buildDots();
+    go(Math.min(cur, pages() - 1));
+  }
+
+  // Controles e interação
+  prev.addEventListener('click', () => { stop(); go(index - 1); start(); });
+  next.addEventListener('click', () => { stop(); go(index + 1); start(); });
+  viewport.addEventListener('mouseenter', stop);
+  viewport.addEventListener('mouseleave', start);
+  window.addEventListener('resize', relayout);
+
+  // Init
+  relayout();
+  start();
+})();
+</script>

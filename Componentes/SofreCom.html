@@ -1,0 +1,228 @@
+<section class="sofre-com" data-section="SofreCom">
+  <div class="sofre-com__wrap">
+    <section class="localbar" data-section="Localizacao" role="region" aria-label="Localização e credenciais">
+      <div class="localbar__pill">
+        <div class="localbar__left">
+          <span class="localbar__badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" focusable="false" aria-hidden="true">
+              <path d="M12 22s7-7.58 7-12a7 7 0 10-14 0c0 4.42 7 12 7 12zm0-9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="localbar__city">CRUZ ALTA | RS</span>
+        </div>
+
+        <ul class="localbar__right">
+          <li>CRM-RS 33.515</li>
+          <li>RQE 30.984</li>
+          <li>CIRURGIA VASCULAR</li>
+        </ul>
+      </div>
+    </section>
+
+    <h2 class="sofre-com__title">Se você sofre com:</h2>
+
+    <div class="sofre-com__grid">
+      <!-- Card 1 -->
+      <article class="s-card">
+        <div class="s-card__img">
+          <img
+            src="https://drajibse.growdoc.com.br/wp-content/uploads/2025/09/Whisk_847d1b8065.jpg"
+            alt="Queimação e peso nas pernas ao final do dia" loading="lazy">
+        </div>
+        <div class="s-card__body">
+          <p>
+            <b>Queimação e peso nas pernas ao final do dia,</b>
+            que parece que estão "amarradas" ou latejando por dentro;
+          </p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="s-card">
+        <div class="s-card__img">
+          <img
+            src="https://drajibse.growdoc.com.br/wp-content/uploads/2025/09/Whisk_900ae9c1d4.jpg"
+            alt="Cansaço extremo nas pernas" loading="lazy">
+        </div>
+        <div class="s-card__body">
+          <p>
+            <b>Cansaço extremo</b> depois de um dia inteiro em pé, mesmo sem esforço físico;
+          </p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="s-card">
+        <div class="s-card__img">
+          <img
+            src="https://drajibse.growdoc.com.br/wp-content/uploads/2025/09/Whisk_51cd23d7f3.jpg"
+            alt="Vergonha dos vasinhos e varizes aparentes" loading="lazy">
+        </div>
+        <div class="s-card__body">
+          <p>
+            <b>Vergonha dos vasinhos e varizes aparentes nas pernas</b>, evitando usar saias, shorts ou vestidos;
+          </p>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="s-card">
+        <div class="s-card__img">
+          <img
+            src="https://drajibse.growdoc.com.br/wp-content/uploads/2025/09/Whisk_3c1b5ce4dd.jpg"
+            alt="Sensação de inchaço nos tornozelos" loading="lazy">
+        </div>
+        <div class="s-card__body">
+          <p>
+            <b>Sensação de inchaço nos tornozelos</b>, principalmente com calor, ou antes do ciclo menstrual.
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <p class="sofre-com__note">
+      Saiba que você não precisa continuar assim! A <b>Dra. Jibse Marchioro</b>, especialista em cirurgia vascular e
+      referência em tratamentos a laser, oferece procedimentos modernos, eficazes e com recuperação rápida, para que você
+      volte a <b>viver sem dor, sem incômodos e com orgulho das suas pernas.</b>
+    </p>
+
+    <a class="cta-button" href="#form" aria-label="Agendar consulta">
+      <span class="button-content-wrapper">
+        <span class="button-icon">
+          <svg class="arrow-icon" viewBox="0 0 448 512">
+            <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+          </svg>
+        </span>
+        <span class="button-text">AGENDAR CONSULTA</span>
+      </span>
+    </a>
+  </div>
+
+  <style>
+    .sofre-com{ padding: 56px 0 40px; background: var(--surface, #fff); }
+    .sofre-com__wrap{ width: min(1216px, 92vw); margin: 0 auto; display: grid; gap: 28px; }
+
+    .sofre-com__title{
+      margin: 0;
+      text-align: center;
+      font-family: var(--font-heading, "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 40px);
+      color: var(--heading, #0e2a1e);
+    }
+
+    .sofre-com__grid{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 1100px){ .sofre-com__grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px){ .sofre-com__grid{ grid-template-columns: 1fr; } }
+
+    .s-card{
+      border: 1px solid #D3D6D2;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.02);
+    }
+    .s-card__img img{
+      display: block;
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .s-card__body{
+      padding: 18px 18px 20px;
+      color: #4a4f49;
+      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .s-card__body b{ color: #2a2f2a; }
+
+    .sofre-com__note{
+      margin: 2px auto 0;
+      text-align: center;
+      width: min(760px, 92vw);
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: clamp(14px, 2.6vw, 18px);
+      line-height: 1.45;
+      color: #2a2f2a;
+    }
+    .sofre-com__note b{ font-weight: 700; }
+
+    .cta-button{
+      justify-self: center;
+    }
+
+    /* Correção do hover - manter texto verde */
+    .cta-button:hover .button-text {
+      color: var(--secondary-color) !important;
+      transform: translateX(5px);
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(90deg, #7A5D3A 0%, #D4C299 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3) !important;
+    }
+
+    /* container geral */
+    .localbar{ padding: 16px 0 32px; display:grid; place-items:center; }
+
+    /* pílula verde - maior e mais robusta */
+    .localbar__pill{
+      width:min(1216px,92vw);
+      background:#0e2a1e; color:#f1f5f2;
+      border-radius:28px;
+      padding:32px 40px;
+      display:flex; align-items:center; justify-content:center;
+      gap:24px;
+      min-height:88px;
+    }
+
+    /* lado esquerdo: pin + cidade */
+    .localbar__left{ display:flex; align-items:center; gap:16px; }
+    .localbar__badge{
+      width:40px; height:40px; flex:0 0 40px;
+      border-radius:999px; display:grid; place-items:center;
+      background:#d2b56c; color:#0e2a1e;
+    }
+    .localbar__city{
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+      font-size:16px; line-height:1; white-space:nowrap;
+    }
+
+    /* lado direito: lista com separadores | */
+    .localbar__right{
+      display:flex; align-items:center; gap:0;
+      margin:0; padding:0; list-style:none;
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight:500; letter-spacing:.02em;
+      font-size:15px; line-height:1; color:#e8efe9;
+      white-space:nowrap;
+    }
+    .localbar__right li + li::before{
+      content:"|"; display:inline-block; opacity:.7; margin:0 16px;
+    }
+
+    /* responsivo: quebra em duas linhas mantendo alinhamento */
+    @media (max-width: 680px){
+      .localbar__pill{ 
+        flex-wrap:wrap; 
+        row-gap:12px; 
+        padding:16px 24px;
+        min-height:auto;
+      }
+      .localbar__right{ width:100%; justify-content:flex-start; white-space:normal; }
+      .localbar__badge{ width:36px; height:36px; }
+      .localbar__city{ font-size:15px; }
+      .localbar__right{ font-size:14px; }
+    }
+  </style>
+</section>
