@@ -11,6 +11,7 @@ Sistema automatizado para criação de landing pages modulares com carregamento 
 - [🎨 Personalização de Cores](#-personalização-de-cores)
 - [🔤 Personalização de Fontes](#-personalização-de-fontes)
 - [🔧 Consolidação de CSS](#-consolidação-de-css)
+- [🖼️ Controle de Imagens e SVGs](#️-controle-de-imagens-e-svgs)
 - [⚡ Performance](#-performance)
 - [🔧 Configurações Avançadas](#-configurações-avançadas)
 - [🚀 Como Usar](#-como-usar)
@@ -402,6 +403,62 @@ p {
 
 **SEMPRE** consolide estilos duplicados no arquivo `styles.css` global. Nunca deixe CSS inline nas seções HTML individuais.
 
+### 📋 Regras do styles.css
+
+#### ✅ O QUE DEVE IR NO styles.css:
+- **Cores e fontes**: Todas as definições de cores e tipografia
+- **Variáveis CSS**: Definições de `:root` e variáveis customizadas
+- **Estilos globais**: Reset, configurações base, classes utilitárias
+- **Componentes reutilizáveis**: Botões, cards, formulários, carrosséis
+- **Layout responsivo**: Media queries e breakpoints
+- **Animações**: Transições e efeitos visuais
+
+#### ❌ O QUE PODE FICAR INLINE (apenas quando necessário):
+- **Layout específico**: Posicionamento único de elementos
+- **Espaçamentos específicos**: Padding/margin que só se aplica àquela seção
+- **Dimensões específicas**: Width/height que não se repete em outras seções
+- **Propriedades de posicionamento**: `position`, `z-index`, `top`, `left`, etc.
+
+#### 🎯 Exemplo de Aplicação das Regras:
+
+**✅ CORRETO - Cores e fontes no styles.css:**
+```css
+/* styles.css */
+:root {
+    --primary-color: #EEC169;
+    --text-color: #333333;
+}
+
+.sobre-consulta-title {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color);
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+```
+
+**✅ CORRETO - Layout específico pode ficar inline:**
+```html
+<!-- Componentes/Section1.html -->
+<style>
+.hero-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 4rem;
+}
+</style>
+```
+
+**❌ ERRADO - Cores inline:**
+```html
+<style>
+.title {
+    color: #EEC169;  /* Deve ir para styles.css */
+    font-family: 'Poppins';  /* Deve ir para styles.css */
+}
+</style>
+```
+
 ### Por que Consolidar?
 
 1. **Manutenibilidade**: Um local central para todos os estilos
@@ -597,6 +654,168 @@ p { /* ... */ }
 3. Use variáveis CSS existentes quando possível
 4. Crie novas variáveis apenas se necessário
 5. Teste se tudo funciona após a consolidação
+
+## 🖼️ Controle de Imagens e SVGs
+
+### ⚠️ Problema Comum: Imagens e SVGs Gigantes
+
+Um problema frequente é SVGs e imagens aparecendo em tamanhos excessivos. O sistema inclui regras específicas para controlar isso.
+
+### 🎯 Regras de Controle de Tamanho
+
+#### SVGs - Controle Geral
+```css
+/* styles.css - Controle geral de SVGs */
+svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+```
+
+#### SVGs por Contexto
+```css
+/* Ícones pequenos (24px) */
+.wa-icon svg,
+.icon svg,
+.sobre-consulta-icon svg,
+.sobre-medico .icon-card svg {
+    width: 24px;
+    height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+}
+
+/* Setas de navegação (20px) */
+.arrow-icon {
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+
+/* Estrelas de depoimentos (94px) */
+.t-stars {
+    width: 94px;
+    height: auto;
+    max-width: 94px;
+    max-height: 94px;
+}
+```
+
+#### Imagens Responsivas
+```css
+/* Imagens gerais */
+.section img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 400px; /* Evita imagens gigantes */
+}
+
+/* Imagens de formulário */
+.form-logo img {
+    width: 96px;
+    height: auto;
+    max-width: 96px;
+    max-height: 96px;
+}
+
+/* Hero background mantém altura total */
+.hero-background img {
+    height: 100vh;
+    min-height: 100vh;
+}
+```
+
+### 🔧 Solução de Problemas
+
+#### SVG Muito Grande
+```css
+/* Se um SVG específico estiver muito grande */
+.seu-svg-class {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+}
+```
+
+#### Imagem Quebrada
+```css
+/* Fallback para imagens quebradas */
+.carousel__item img:not([src]) {
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 18px;
+}
+```
+
+#### Imagem Externa com Erro 404
+```html
+<!-- Use onerror para fallback -->
+<img src="https://exemplo.com/imagem.jpg" 
+     alt="Descrição" 
+     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+<div class="fallback" style="display:none;">
+    Imagem não disponível
+</div>
+```
+
+### 📋 Checklist de Imagens
+
+Antes de finalizar qualquer seção com imagens:
+
+- [ ] **SVGs com tamanho controlado** (24px para ícones, 20px para setas)
+- [ ] **Imagens responsivas** com `max-width: 100%`
+- [ ] **Alt text** em todas as imagens
+- [ ] **Fallback** para imagens quebradas
+- [ ] **Caminhos corretos** para imagens locais
+- [ ] **Otimização** de imagens grandes
+
+### 🎨 Exemplo de Implementação Correta
+
+```html
+<!-- Componentes/SectionComImagens.html -->
+<div class="section">
+    <div class="section-content">
+        <!-- SVG controlado -->
+        <div class="icon">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="..."></path>
+            </svg>
+        </div>
+        
+        <!-- Imagem responsiva -->
+        <img src="IMG/sua-imagem.jpg" 
+             alt="Descrição da imagem"
+             class="section-image">
+    </div>
+</div>
+```
+
+```css
+/* styles.css */
+.icon-svg {
+    width: 24px;
+    height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.section-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+```
 
 ## ⚡ Performance
 
